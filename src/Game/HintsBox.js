@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 
-export default class HintsBox extends Component {
-    render() {
-        return (
-            <div className="container">
-                HintBox
-            </div>
-        )
-    }
+export default function HintsBox() {
+    return (
+        <div className="box">
+            Box test
+        </div>
+    )
 }

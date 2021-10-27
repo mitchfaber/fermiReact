@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 
-export default class GuessControls extends Component {
-    render() {
-        return (
-            <div>
-                Guess controls
-            </div>
-        )
-    }
+export default function GuessControls() {    
+    return (
+        <div>
+            Guess controls
+        </div>
+    )
 }
