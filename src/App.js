@@ -4,7 +4,7 @@ function App() {
         <>
             <div className="hero is-primary">
                 <div className="hero-body">
-                    <p className="title">Hello World</p>
+                    <p className="title">Fermi</p>
                     <p className="subtitle">By Mitch Faber</p>
                 </div>
             </div>
