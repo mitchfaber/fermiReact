@@ -35,7 +35,11 @@ export default function Game() {
                                     <div ref={setCollapsibleElement}>
                                         <div className="card-content" >
                                             <div className="content">
-                                                testing rule card
+                                                This game is called Fermi. It's a number guessing game where 
+                                                You need to guess 3 numbers in the correct order. Number 1, 2, 3 reads left to right. <br /> <br />
+                                                Fermi means it's the correct number in the correct column. <br /> <br />
+                                                Pico means right number, wrong column. <br /> <br />
+                                                Nano means wrong number.
                                             </div>
                                         </div>
                                     </div>
