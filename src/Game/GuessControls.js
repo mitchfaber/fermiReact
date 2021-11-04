@@ -43,7 +43,7 @@ export default function GuessControls() {
     }
 
     function guess() {
-        let valid = validate()
+        setValid(validate())
         if (valid) {
             setGuessCount(guessCount + 1)
         }
@@ -64,19 +64,19 @@ export default function GuessControls() {
             <div className="field">
                 <label className="label">1st number</label>
                 <div className="control">
-                    <input type="number" className={valid ? "input is-primary" : "input is-error"} onChange={handleNumChange} id="num1" value={guess1} min="1" max="10"></input>
+                    <input type="number" className={valid ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num1" value={guess1} min="1" max="10"></input>
                 </div>
             </div>
             <div className="field">
                 <label className="label">2nd number</label>
                 <div className="control">
-                    <input type="number" className="input is-primary" onChange={handleNumChange} id="num2" value={guess2} min="1" max="10"></input>
+                    <input type="number" className={valid ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num2" value={guess2} min="1" max="10"></input>
                 </div>
             </div>
             <div className="field">
                 <label className="label">3rd number</label>
                 <div className="control">
-                    <input type="number" className="input is-primary" onChange={handleNumChange} id="num3" value={guess3} min="1" max="10"></input>
+                    <input type="number" className={valid ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num3" value={guess3} min="1" max="10"></input>
                 </div>
             </div>
             <div className="field">
