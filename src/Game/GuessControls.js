@@ -5,15 +5,14 @@ export default function GuessControls() {
     const [guess2, setGuess2] = useState(1)
     const [guess3, setGuess3] = useState(1)
     const [guessCount, setGuessCount] = useState(0)
+    const [valid, setValid] = useState(true)
     
     useEffect(() => {
         //Generate fermi numbers on first run.
-        console.log("USE EFFECT")
         genNums()
     }, [])
     
     function genNums() {
-        console.log("GEN NUMS")
         setGuessCount(0)
     }
     
@@ -65,7 +64,7 @@ export default function GuessControls() {
             <div className="field">
                 <label className="label">1st number</label>
                 <div className="control">
-                    <input type="number" className="input is-primary" onChange={handleNumChange} id="num1" value={guess1} min="1" max="10"></input>
+                    <input type="number" className={valid ? "input is-primary" : "input is-error"} onChange={handleNumChange} id="num1" value={guess1} min="1" max="10"></input>
                 </div>
             </div>
             <div className="field">
