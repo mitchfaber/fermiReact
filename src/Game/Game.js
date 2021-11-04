@@ -13,12 +13,6 @@ export default function Game() {
     return (
         <div className="container">
             <div className="columns">
-                <div className="column is-one-fifth">
-                    <GuessControls></GuessControls>
-                </div>
-                <div className="column">
-                    <HintsBox></HintsBox>
-                </div>
                 <div className="column is-one-quarter">
                     <div className="card">
                         <SlideToggle collapsed>
@@ -39,7 +33,9 @@ export default function Game() {
                                                 You need to guess 3 numbers in the correct order. Number 1, 2, 3 reads left to right. <br /> <br />
                                                 Fermi means it's the correct number in the correct column. <br /> <br />
                                                 Pico means right number, wrong column. <br /> <br />
-                                                Nano means wrong number.
+                                                Nano means wrong number. <br /> <br />
+                                                However, the trick is that the hints are shuffled. For example, just because Fermi shows up in the second column, that does
+                                                not mean it's the second number that was correct.
                                             </div>
                                         </div>
                                     </div>
@@ -47,6 +43,12 @@ export default function Game() {
                             )}
                         </SlideToggle>
                     </div>
+                </div>
+                <div className="column">
+                    <HintsBox></HintsBox>
+                </div>
+                <div className="column is-one-fifth">
+                    <GuessControls></GuessControls>
                 </div>
             </div>
         </div>
