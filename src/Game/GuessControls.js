@@ -5,7 +5,8 @@ export default function GuessControls() {
     const [guess2, setGuess2] = useState([1, true])
     const [guess3, setGuess3] = useState([1, true])
     const [guessCount, setGuessCount] = useState(0)
-    const [valid, setValid] = useState(true)
+    const [numsToGuess, setNumsToGuess] = useState([0, 0, 0])
+    const [hint, setHint] = useState("")
 
     useEffect(() => {
         //Generate fermi numbers on first run.
@@ -14,6 +15,21 @@ export default function GuessControls() {
 
     function genNums() {
         setGuessCount(0)
+
+        let nums = [0, 0, 0]
+        console.log(nums.length)
+        for (let i = 0; i < nums.length; i++) {
+            if (i > 0) {
+                
+                nums[i] = randomNum()
+            }
+            
+        }
+        setNumsToGuess([...nums])
+    }
+
+    function randomNum() {
+        return Math.floor(Math.random() * 10) + 1;
     }
 
     function handleNumChange(e) {
@@ -36,10 +52,8 @@ export default function GuessControls() {
 
     function validate(valNumber) {
         if ((valNumber > 10) || (valNumber < 1)) {
-            setValid(false)
             return false
         } else {
-            setValid(true)
             return true
         }
     }
@@ -47,10 +61,13 @@ export default function GuessControls() {
     function guess() {
         setGuess1([guess1[0], validate(guess1[0])])
         setGuess2([guess2[0], validate(guess2[0])])
-        setGuess3([guess3[0],validate(guess3[0])])
+        setGuess3([guess3[0], validate(guess3[0])])
+        console.log("Nums to guess: " + numsToGuess)
         if (guess1[1], guess2[1], guess3[1]) {
             setGuessCount(guessCount + 1)
         }
+
+        
     }
 
     function reset() {
