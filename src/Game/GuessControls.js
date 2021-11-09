@@ -17,14 +17,13 @@ export default function GuessControls() {
         setGuessCount(0)
 
         let nums = [0, 0, 0]
-        console.log(nums.length)
-        for (let i = 0; i < nums.length; i++) {
-            if (i > 0) {
-                
-                nums[i] = randomNum()
-            }
-            
-        }
+        nums[0] = randomNum()
+        do {
+            nums[1] = randomNum()
+        } while (nums[1] === nums[0])
+        do {
+            nums[2] = randomNum()
+        } while (nums[1] === nums[2])
         setNumsToGuess([...nums])
     }
 
@@ -63,18 +62,57 @@ export default function GuessControls() {
         setGuess2([guess2[0], validate(guess2[0])])
         setGuess3([guess3[0], validate(guess3[0])])
         console.log("Nums to guess: " + numsToGuess)
-        if (guess1[1], guess2[1], guess3[1]) {
+        // error validation
+        if (guess1[1], guess2[1], guess3[1]) { 
             setGuessCount(guessCount + 1)
         }
+        setHint(checkAnswers())
+        console.log(hint)
+    }
 
-        
+    function checkAnswers() {
+        let hint = ''
+        for (let i = 0; i < 3; i++) {
+            switch (i) {
+                case 0:
+                    if (numsToGuess[i] === guess1[0]) {
+                        hint += ' fermi '
+                    } else if (numsToGuess[i] === guess2[0] || numsToGuess[i] === guess3[0]) {
+                        hint += ' pico '
+                    } else {
+                        hint += ' nano '
+                    }
+                    break;
+                case 1:
+                    if (numsToGuess[i] === guess2[0]) {
+                        hint += ' fermi '
+                    } else if (numsToGuess[i] === guess1[0] || numsToGuess[i] === guess3[0]) {
+                        hint += ' pico '
+                    } else {
+                        hint += ' nano '
+                    }
+                    break;
+                case 2:
+                    if (numsToGuess[i] === guess3[0]) {
+                        hint += ' fermi '
+                    } else if (numsToGuess[i] === guess1[0] || numsToGuess[i] === guess2[0]) {
+                        hint += ' pico '
+                    } else {
+                        hint += ' nano '
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return hint
     }
 
     function reset() {
         setGuessCount(0)
-        setGuess1(1)
-        setGuess2(1)
-        setGuess3(1)
+        setGuess1([1, true])
+        setGuess2([1, true])
+        setGuess3([1, true])
         genNums()
     }
 
