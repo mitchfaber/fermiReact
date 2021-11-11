@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function GuessControls() {
     const [guess1, setGuess1] = useState([1, true]) // Using first value as guess num, second as validation
@@ -7,11 +7,17 @@ export default function GuessControls() {
     const [guessCount, setGuessCount] = useState(0)
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0])
     const [hint, setHint] = useState("")
+    const [guessedNums, setGuessedNums] = useState([0,0,0])
 
     useEffect(() => {
         //Generate fermi numbers on first run.
         genNums()
     }, [])
+
+    useEffect(() => {
+        console.log(guessedNums)
+        setHint(checkAnswers())
+    }, [guessedNums])
 
     function genNums() {
         setGuessCount(0)
@@ -31,7 +37,7 @@ export default function GuessControls() {
         return Math.floor(Math.random() * 10) + 1;
     }
 
-    function handleNumChange(e) {
+    async function handleNumChange(e) {
         let newValue = e.target.value
         switch (e.target.id) {
             case "num1":
@@ -57,54 +63,48 @@ export default function GuessControls() {
         }
     }
 
-    function guess() {
+    async function guess() {
+        guessSetter().then(() => {
+            // error validation
+            if (guess1[1] && guess2[1] && guess3[1]) {
+                setGuessCount(guessCount + 1)
+                setGuessedNums([guess1[0], guess2[0], guess3[0]])
+            }
+        })
+    }
+
+    async function guessSetter() {
         setGuess1([guess1[0], validate(guess1[0])])
         setGuess2([guess2[0], validate(guess2[0])])
         setGuess3([guess3[0], validate(guess3[0])])
         console.log("Nums to guess: " + numsToGuess)
-        // error validation
-        if (guess1[1], guess2[1], guess3[1]) { 
-            setGuessCount(guessCount + 1)
-        }
-        setHint(checkAnswers())
-        console.log(hint)
     }
 
     function checkAnswers() {
         let hint = ''
-        for (let i = 0; i < 3; i++) {
-            switch (i) {
-                case 0:
-                    if (numsToGuess[i] === guess1[0]) {
+        numsToGuess.forEach((numToGuess, x) => {
+            let locNumToGuess = Number(numToGuess) //so I can use ===
+            let hintDone = false
+            guessedNums.forEach((guessNum, i) => {    
+                let locNumGuessed = Number(guessNum) // so I can use ===
+                if (!hintDone) {
+                    if (locNumGuessed === locNumToGuess && i === x) {
+                        console.log("fermi: " + locNumGuessed, locNumToGuess)
                         hint += ' fermi '
-                    } else if (numsToGuess[i] === guess2[0] || numsToGuess[i] === guess3[0]) {
+                        hintDone = true
+                    } else if (locNumGuessed === locNumToGuess && i !== x) {
+                        console.log("pico: " + locNumGuessed, locNumToGuess)
                         hint += ' pico '
+                        hintDone = true
                     } else {
+                        console.log("Nano: " + locNumGuessed, locNumToGuess)
                         hint += ' nano '
+                        hintDone = true
                     }
-                    break;
-                case 1:
-                    if (numsToGuess[i] === guess2[0]) {
-                        hint += ' fermi '
-                    } else if (numsToGuess[i] === guess1[0] || numsToGuess[i] === guess3[0]) {
-                        hint += ' pico '
-                    } else {
-                        hint += ' nano '
-                    }
-                    break;
-                case 2:
-                    if (numsToGuess[i] === guess3[0]) {
-                        hint += ' fermi '
-                    } else if (numsToGuess[i] === guess1[0] || numsToGuess[i] === guess2[0]) {
-                        hint += ' pico '
-                    } else {
-                        hint += ' nano '
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+                }
+            })
+        })
+        console.log(hint)
         return hint
     }
 

@@ -1,15 +1,9 @@
-import React, { Component, useState, useEffect } from 'react'
+import React from 'react'
 import HintsBox from './HintsBox';
 import GuessControls from './GuessControls';
 import SlideToggle from "react-slide-toggle";
-import BezierEasing from "bezier-easing";
 
 export default function Game() {
-    const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
-    
-    // function onToggle(){
-    //     this.setState({ toggleEvent: Date.now() });
-    // }
     return (
         <div className="container">
             <div className="columns">
