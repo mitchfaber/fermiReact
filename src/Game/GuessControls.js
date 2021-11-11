@@ -6,9 +6,11 @@ export default function GuessControls() {
     const [guess3, setGuess3] = useState([1, true])
     const [guessCount, setGuessCount] = useState(0)
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0])
-    const [hint, setHint] = useState("")
+    const [hint, setHint] = useState('')
     const [guessedNums, setGuessedNums] = useState([0,0,0])
-
+    
+    
+    
     useEffect(() => {
         //Generate fermi numbers on first run.
         genNums()
@@ -17,11 +19,10 @@ export default function GuessControls() {
     useEffect(() => {
         console.log(guessedNums)
         setHint(checkAnswers())
-    }, [guessedNums])
+    }, [guessedNums]) //Whenever guessedNums changes (When "Guess" button is clicked) setHint and Check answers
 
     function genNums() {
         setGuessCount(0)
-
         let nums = [0, 0, 0]
         nums[0] = randomNum()
         do {
@@ -82,27 +83,27 @@ export default function GuessControls() {
 
     function checkAnswers() {
         let hint = ''
-        numsToGuess.forEach((numToGuess, x) => {
-            let locNumToGuess = Number(numToGuess) //so I can use ===
-            let hintDone = false
-            guessedNums.forEach((guessNum, i) => {    
-                let locNumGuessed = Number(guessNum) // so I can use ===
-                if (!hintDone) {
-                    if (locNumGuessed === locNumToGuess && i === x) {
-                        console.log("fermi: " + locNumGuessed, locNumToGuess)
-                        hint += ' fermi '
-                        hintDone = true
-                    } else if (locNumGuessed === locNumToGuess && i !== x) {
-                        console.log("pico: " + locNumGuessed, locNumToGuess)
-                        hint += ' pico '
-                        hintDone = true
-                    } else {
-                        console.log("Nano: " + locNumGuessed, locNumToGuess)
-                        hint += ' nano '
-                        hintDone = true
-                    }
+        guessedNums.forEach((numGuess, i) => {
+            let hintFlag = false
+            while (!hintFlag) {
+                if (numsToGuess.includes(Number(numGuess))) {
+                    numsToGuess.forEach((numToGuess, x) => {
+                        if (numGuess == numToGuess && i == x) {
+                            hint += ' Fermi '
+                            console.log('Fermi! num guessed: ' + numGuess + ' num compared: ' + numToGuess)
+                            hintFlag = true
+                        } else if (numGuess == numToGuess) {
+                            hint += ' Pico '
+                            console.log('Pico! num guessed: ' + numGuess + ' num compared: ' + numToGuess)
+                            hintFlag = true
+                        }
+                    })
+                } else {
+                    hint += ' Nano '
+                    console.log('Nano! num guessed: ' + numGuess)
+                    hintFlag = true
                 }
-            })
+            }
         })
         console.log(hint)
         return hint
