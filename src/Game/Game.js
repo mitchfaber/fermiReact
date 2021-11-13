@@ -3,19 +3,7 @@ import HintsBox from './HintsBox';
 import GuessControls from './GuessControls';
 import SlideToggle from "react-slide-toggle";
 
-const LOCAL_STORAGE_KEY = 'fermiGame.Hint'
-
 export default function Game() {
-    const hintStore = makeObservable({ hint: "", count: 0 })
-    const [hint, setHint] = useState(hintStore.get())
-
-    useEffect(() => {
-    }, [])
-
-    useEffect(() => {
-        console.log('hint: ' + hint)
-    }, [hint])
-
     return (
         <div className="container">
             <div className="columns">
@@ -51,10 +39,10 @@ export default function Game() {
                     </div>
                 </div>
                 <div className="column">
-                    <HintsBox hintStore={hintStore}></HintsBox>
+                    <HintsBox></HintsBox>
                 </div>
                 <div className="column is-one-fifth">
-                    <GuessControls hintStore={hintStore} onHintChange={setHint}></GuessControls>
+                    <GuessControls></GuessControls>
                 </div>
             </div>
         </div>

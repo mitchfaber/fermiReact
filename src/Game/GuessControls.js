@@ -9,8 +9,6 @@ export default function GuessControls() {
     const [hint, setHint] = useState('')
     const [guessedNums, setGuessedNums] = useState([0,0,0])
     
-    
-    
     useEffect(() => {
         //Generate fermi numbers on first run.
         genNums()
