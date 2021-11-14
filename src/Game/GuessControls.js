@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+const LOCAL_STORAGE_KEY = 'fermiGame.Hint'
 export default function GuessControls() {
     const [guess1, setGuess1] = useState([1, true]) // Using first value as guess num, second as validation
     const [guess2, setGuess2] = useState([1, true])
@@ -88,11 +88,9 @@ export default function GuessControls() {
                     numsToGuess.forEach((numToGuess, x) => {
                         if (numGuess == numToGuess && i == x) {
                             hint += ' Fermi '
-                            console.log('Fermi! num guessed: ' + numGuess + ' num compared: ' + numToGuess)
                             hintFlag = true
                         } else if (numGuess == numToGuess) {
                             hint += ' Pico '
-                            console.log('Pico! num guessed: ' + numGuess + ' num compared: ' + numToGuess)
                             hintFlag = true
                         }
                     })
@@ -104,6 +102,7 @@ export default function GuessControls() {
             }
         })
         console.log(hint)
+        localStorage.setItem(LOCAL_STORAGE_KEY, hint)
         return hint
     }
 
