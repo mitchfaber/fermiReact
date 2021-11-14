@@ -96,12 +96,11 @@ export default function GuessControls() {
                     })
                 } else {
                     hint += ' Nano '
-                    console.log('Nano! num guessed: ' + numGuess)
                     hintFlag = true
                 }
             }
         })
-        console.log(hint)
+        // console.log(hint)
         localStorage.setItem(LOCAL_STORAGE_KEY, hint)
         return hint
     }

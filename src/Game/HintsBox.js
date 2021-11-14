@@ -1,11 +1,24 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 
 const LOCAL_STORAGE_KEY = 'fermiGame.Hint'
 export default function HintsBox() {
-    const storedHint = (localStorage.getItem(LOCAL_STORAGE_KEY))
+    const [hint,setHint] = useState()
+    
     useEffect(() => {
-        console.log('hintbox hint changed: ' + storedHint)
-    }, [localStorage.getItem(LOCAL_STORAGE_KEY)])
+        function checkHint() {
+            const storedHint = (localStorage.getItem(LOCAL_STORAGE_KEY))
+            if (storedHint) {
+                console.log("local storage " + hint)
+                setHint(storedHint)
+            }
+        }
+
+        window.addEventListener('storage', checkHint)
+
+        return () => {
+            window.removeEventListener('storage', checkHint)
+        }
+    }, [])
 
     return (
         <div className="box" >
