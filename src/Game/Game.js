@@ -4,6 +4,16 @@ import GuessControls from './GuessControls';
 import SlideToggle from "react-slide-toggle";
 
 export default function Game() {
+    const [hint, setHint] = useState(['', 0])
+    
+    useEffect(() => {
+        setHint(['',0])
+    }, [])
+
+    function changeHint(newValue) {
+        setHint(newValue)
+    }
+
     return (
         <div className="container">
             <div className="columns">
@@ -39,10 +49,10 @@ export default function Game() {
                     </div>
                 </div>
                 <div className="column">
-                    <HintsBox></HintsBox>
+                    <HintsBox hint={hint}></HintsBox>
                 </div>
                 <div className="column is-one-fifth">
-                    <GuessControls></GuessControls>
+                    <GuessControls hint={hint} changeHint={changeHint.bind(this)}></GuessControls>
                 </div>
             </div>
         </div>

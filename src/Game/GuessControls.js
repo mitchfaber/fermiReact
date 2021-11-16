@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-const LOCAL_STORAGE_KEY = 'fermiGame.Hint'
-export default function GuessControls() {
+export default function GuessControls({ hint, changeHint }) {
     const [guess1, setGuess1] = useState([1, true]) // Using first value as guess num, second as validation
     const [guess2, setGuess2] = useState([1, true])
     const [guess3, setGuess3] = useState([1, true])
     const [guessCount, setGuessCount] = useState(0)
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0])
-    const [hint, setHint] = useState('')
     const [guessedNums, setGuessedNums] = useState([0,0,0])
     
     useEffect(() => {
@@ -15,8 +13,8 @@ export default function GuessControls() {
     }, [])
 
     useEffect(() => {
-        console.log(guessedNums)
-        setHint(checkAnswers())
+        console.log("Checking answers")
+        checkAnswers()
     }, [guessedNums]) //Whenever guessedNums changes (When "Guess" button is clicked) setHint and Check answers
 
     function genNums() {
@@ -80,29 +78,27 @@ export default function GuessControls() {
     }
 
     function checkAnswers() {
-        let hint = ''
+        hint[0] = ''
         guessedNums.forEach((numGuess, i) => {
             let hintFlag = false
             while (!hintFlag) {
                 if (numsToGuess.includes(Number(numGuess))) {
                     numsToGuess.forEach((numToGuess, x) => {
                         if (numGuess == numToGuess && i == x) {
-                            hint += ' Fermi '
+                            hint[0] += ' Fermi '
                             hintFlag = true
                         } else if (numGuess == numToGuess) {
-                            hint += ' Pico '
+                            hint[0] += ' Pico '
                             hintFlag = true
                         }
                     })
                 } else {
-                    hint += ' Nano '
+                    hint[0] += ' Nano '
                     hintFlag = true
                 }
             }
         })
-        // console.log(hint)
-        localStorage.setItem(LOCAL_STORAGE_KEY, hint)
-        return hint
+        changeHint([hint[0], guessCount])
     }
 
     function reset() {
