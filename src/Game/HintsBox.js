@@ -4,7 +4,7 @@ export default function HintsBox({ hint, guessCount }) {
     const [prevGuess, setPrevGuess] = useState([{hint : '',count : 0}])
     useEffect(() => {
         console.log("Hint changed I'm in hint box! " + hint)
-        
+        let newHints = [...prevGuess]
     }, [hint])
 
     return (
