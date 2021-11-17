@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react'
 
-export default function HintsBox({ hint, guessCount }) {
-    const [prevGuess, setPrevGuess] = useState([{hint : '',count : 0}])
+export default function HintsBox({ hint }) {
+    const [guesses, setGuesses] = useState([])
     useEffect(() => {
-        console.log("Hint changed I'm in hint box! " + hint)
-        let newHints = [...prevGuess]
+        setGuesses(prevGuesses => {
+            return [...prevGuesses, {hint : hint[0], count : hint[1]}]
+        })
     }, [hint])
 
     return (
         <div className="box" >
-            <div className="textarea is-primary has-fixed-size is-vcentered">
+            <div>
                 <p>Previous Guesses<br />============</p><br />
-                {hint[1] > 0 ? <div>Guess #{hint[1]} : {hint[0]}</div> : <div></div>}
+                {guesses.map((guess) => {
+                    return guess.count > 0 ? <div>Guess #{guess.count} : {guess.hint}</div> : <div></div>
+                })}
             </div>
         </div>
     )

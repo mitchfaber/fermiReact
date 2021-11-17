@@ -13,7 +13,6 @@ export default function GuessControls({ hint, changeHint }) {
     }, [])
 
     useEffect(() => {
-        console.log("Checking answers")
         checkAnswers()
     }, [guessedNums]) //Whenever guessedNums changes (When "Guess" button is clicked) setHint and Check answers
 
@@ -74,7 +73,6 @@ export default function GuessControls({ hint, changeHint }) {
         setGuess1([guess1[0], validate(guess1[0])])
         setGuess2([guess2[0], validate(guess2[0])])
         setGuess3([guess3[0], validate(guess3[0])])
-        console.log("Nums to guess: " + numsToGuess)
     }
 
     function checkAnswers() {
@@ -103,6 +101,7 @@ export default function GuessControls({ hint, changeHint }) {
 
     function reset() {
         setGuessCount(0)
+        changeHint(['',0])
         setGuess1([1, true])
         setGuess2([1, true])
         setGuess3([1, true])
