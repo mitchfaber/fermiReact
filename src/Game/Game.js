@@ -5,10 +5,15 @@ import SlideToggle from "react-slide-toggle";
 
 export default function Game() {
     const [hint, setHint] = useState(['', 0])
-    
+    const [reset, setReset] = useState(false)
+
     useEffect(() => {
         setHint(['',0])
     }, [])
+
+    function changeReset() {
+        reset ? setReset(false) : setReset(true)
+    }
 
     function changeHint(newValue) {
         setHint(newValue)
@@ -49,10 +54,19 @@ export default function Game() {
                     </div>
                 </div>
                 <div className="column">
-                    <HintsBox hint={hint}></HintsBox>
+                    <HintsBox
+                        hint={hint}
+                        reset={reset}
+                        changeReset={changeReset}>
+                    </HintsBox>
                 </div>
                 <div className="column is-one-fifth">
-                    <GuessControls hint={hint} changeHint={changeHint.bind(this)}></GuessControls>
+                    <GuessControls
+                        hint={hint}
+                        reset={reset}
+                        changeHint={changeHint.bind(this)}
+                        changeReset={changeReset}>    
+                    </GuessControls>
                 </div>
             </div>
         </div>
