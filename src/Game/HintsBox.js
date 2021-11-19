@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-export default function HintsBox({ hint, reset, changeReset }) {
+export default function HintsBox({ hint, reset, count, changeReset }) {
     const [guesses, setGuesses] = useState([]);
     useEffect(() => {
         setGuesses(prevGuesses => {
-            return [...prevGuesses, { hint: hint[0], count: hint[1] }];
+            return [...prevGuesses, { hint: hint[0], count: count }];
         });
     }, [hint]);
 

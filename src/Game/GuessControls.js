@@ -1,10 +1,9 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect } from 'react';
-export default function GuessControls({ hint, changeHint, reset, changeReset }) {
+export default function GuessControls({ hint, reset,count,changeCount,changeHint,changeReset }) {
     const [guess1, setGuess1] = useState([1, true]); // Using first value as guess num, second as validation
     const [guess2, setGuess2] = useState([1, true]);
     const [guess3, setGuess3] = useState([1, true]);
-    const [guessCount, setGuessCount] = useState(0);
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0]);
     const [guessedNums, setGuessedNums] = useState([0, 0, 0]);
     const [gameOver, setGameOver] = useState(false);
@@ -19,7 +18,7 @@ export default function GuessControls({ hint, changeHint, reset, changeReset }) 
     }, [guessedNums]); //Whenever guessedNums changes (When "Guess" button is clicked) setHint and Check answers
 
     function genNums() {
-        setGuessCount(0);
+        changeCount(0);
         let nums = [0, 0, 0];
         nums[0] = randomNum();
         do {
@@ -48,7 +47,7 @@ export default function GuessControls({ hint, changeHint, reset, changeReset }) 
                 setGuess3([newValue, guess3[1]]);
                 break;
             default:
-                // No num change? Not sure what to do here really... 
+                // No num change? Not sure what to do here really...
                 console.log("You must be a wizard or something...");
         }
     }
@@ -66,87 +65,82 @@ export default function GuessControls({ hint, changeHint, reset, changeReset }) 
             console.log(res);
             // error validation
             if (res) {
-                console.log("Guesses validated");
-                setGuessCount(guessCount + 1);
+                changeCount(count + 1);
                 setGuessedNums([guess1[0], guess2[0], guess3[0]]);
             }
         });
     }
 
     async function guessSetter() {
-        console.log("validating...");
         setGuess1([guess1[0], await validate(guess1[0])]);
         setGuess2([guess2[0], await validate(guess2[0])]);
         setGuess3([guess3[0], await validate(guess3[0])]);
         if (guess1[1] && guess2[1] && guess3[1]) {
-            console.log("valid");
             return true;
         } else {
-            console.log("invalid");
             return false;
         }
     }
 
-    function checkAnswers() {
-        hint[0] = '';
+    async function checkAnswers() {
+        for (let i = 0; i < 3; i++) {
+            console.log("Clearing hints")
+            console.log(hint)
+            hint.forEach(() => {
+                hint.pop()
+            })
+            
+        }
         guessedNums.forEach((numGuess, i) => {
             let hintFlag = false;
             while (!hintFlag) {
                 if (numsToGuess.includes(Number(numGuess))) {
                     numsToGuess.forEach((numToGuess, x) => {
                         if (numGuess == numToGuess && i == x) {
-                            hint[0] += ' Fermi';
+                            hint.push(' Fermi');
                             hintFlag = true;
                         } else if (numGuess == numToGuess) {
-                            hint[0] += ' Pico';
+                            hint.push(' Pico');
                             hintFlag = true;
                         }
                     });
                 } else {
-                    hint[0] += ' Nano';
+                    hint.push(' Nano');
                     hintFlag = true;
                 }
             }
         });
-        if (guessCount == 10) {
-            if (!(hint[0].includes('Pico') || hint[0].includes('Nano'))) {
-                switch (guessCount) {
-                    case 1:
-                        hint[0] += " ||  FIRST TRY!? YOU'RE A LORD, YOU OWN!";
-                        break;
-                    case 10:
-                        hint[0] += ' ||  DANG! CUT IT CLOSE! ';
-                        break;
-                    default:
-                        hint[0] += ' ||  WINNER! ';
-                        break;
-                }
+        console.log(hint)
+        let checkFlag = await checkHint();
+        if (count == 10) {
+            if (checkFlag) {
+                hint.push(' ||  WINNER!')
                 setGameOver(true);
             } else {
-                hint[0] += ' LOSE - Better luck next time! ';
+                hint.push(' || LOSE - Better luck next time! ');
                 setGameOver(true);
             }
         } else {
-            if (!(hint[0].includes('Pico') || hint[0].includes('Nano'))) {
-                switch (guessCount) {
-                    case 1:
-                        hint[0] += " || FIRST TRY!? YOU'RE A LORD, YOU OWN!";
-                        break;
-                    case 10:
-                        hint[0] += ' ||  DANG! CUT IT CLOSE! ';
-                        break;
-                    default:
-                        hint[0] += ' ||  WINNER! ';
-                        break;
-                }
+            console.log("check flag: " + checkFlag)
+            if (checkFlag) {
+                hint.push(' ||  WINNER!')
                 setGameOver(true);
             }
         }
-        hint[0] = hint[0].split(" ").splice(0,1)
-        shuffleArray(hint[0]).then(() => {
-            console.log(hint[0]);
-            changeHint([hint[0], guessCount]);
-        })
+        changeHint([hint]);
+    }
+
+    async function checkHint() {
+        console.log("checking hint: " + hint);
+        let fermiCount = 0
+        hint.forEach((myHint) => {
+            myHint.includes('Fermi') ? fermiCount++ : fermiCount = fermiCount;
+        });
+        if (fermiCount == 3) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -160,7 +154,7 @@ export default function GuessControls({ hint, changeHint, reset, changeReset }) 
     }
 
     function resetGame() {
-        setGuessCount(0);
+        changeCount(0);
         changeHint(['', 0]);
         setGuess1([1, true]);
         setGuess2([1, true]);

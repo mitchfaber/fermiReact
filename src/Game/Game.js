@@ -4,11 +4,12 @@ import GuessControls from './GuessControls';
 import SlideToggle from "react-slide-toggle";
 
 export default function Game() {
-    const [hint, setHint] = useState(['', 0])
+    const [hint, setHint] = useState(['', '',''])
     const [reset, setReset] = useState(false)
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
-        setHint(['',0])
+        setHint([' ',' ',' '])
     }, [])
 
     function changeReset() {
@@ -17,6 +18,10 @@ export default function Game() {
 
     function changeHint(newValue) {
         setHint(newValue)
+    }
+
+    function changeCount(newValue) {
+        setCount(newValue)
     }
 
     return (
@@ -57,6 +62,7 @@ export default function Game() {
                     <HintsBox
                         hint={hint}
                         reset={reset}
+                        count={count}
                         changeReset={changeReset}>
                     </HintsBox>
                 </div>
@@ -64,6 +70,8 @@ export default function Game() {
                     <GuessControls
                         hint={hint}
                         reset={reset}
+                        count={count}
+                        changeCount={changeCount}
                         changeHint={changeHint.bind(this)}
                         changeReset={changeReset}>    
                     </GuessControls>
