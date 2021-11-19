@@ -11,6 +11,7 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     useEffect(() => {
         //Generate fermi numbers on first run.
         genNums();
+        setGameOver(false)
     }, []);
 
     useEffect(() => {
@@ -89,7 +90,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
             hint.forEach(() => {
                 hint.pop()
             })
-            
         }
         guessedNums.forEach((numGuess, i) => {
             let hintFlag = false;
@@ -110,7 +110,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
                 }
             }
         });
-        console.log(hint)
         let checkFlag = await checkHint();
         if (count == 10) {
             if (checkFlag) {
@@ -120,8 +119,7 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
                 hint.push(' || LOSE - Better luck next time! ');
                 setGameOver(true);
             }
-        } else {
-            console.log("check flag: " + checkFlag)
+        } else if (count > 0){
             if (checkFlag) {
                 hint.push(' ||  WINNER!')
                 setGameOver(true);
@@ -136,9 +134,10 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
         hint.forEach((myHint) => {
             myHint.includes('Fermi') ? fermiCount++ : fermiCount = fermiCount;
         });
-        if (fermiCount == 3) {
+        if (fermiCount === 3) {
             return true;
         } else {
+            shuffleArray(hint)
             return false;
         }
     }
