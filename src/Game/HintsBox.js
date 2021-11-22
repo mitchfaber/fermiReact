@@ -26,7 +26,7 @@ export default function HintsBox({ hint, reset, count, changeReset }) {
             <div>
                 <p>Previous Guesses<br />============</p><br />
                 {guesses.map((guess) => {
-                    return guess.count > 0 ? <div>Guess #{guess.count} : {guess.hint}</div> : <div></div>
+                    return guess.count > 0 ? <div key={guess.count}>Guess #{guess.count} : {guess.hint}</div> : <div key={guess.count}></div>
                 })}
             </div>
         </div>

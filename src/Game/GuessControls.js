@@ -7,7 +7,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0]);
     const [guessedNums, setGuessedNums] = useState([0, 0, 0]);
     const [gameOver, setGameOver] = useState(false);
-    const [valid, setValid] = useState(true)
     
     useEffect(() => {
         //Generate fermi numbers on first run.
@@ -159,7 +158,7 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
         setGameOver(false);
         changeReset();
     }
-
+//   "homepage":"/Users/mitchfaber/Documents/WebDev/fermiReact/build",
     return (
         <div className="box">
             <div className="field">
