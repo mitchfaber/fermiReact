@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-export default function HintsBox({ hint, reset, count, changeReset }) {
+export default function HintsBox({ hint, reset, count,nums, changeReset }) {
     const [guesses, setGuesses] = useState([]);
     useEffect(() => {
         setGuesses(prevGuesses => {
-            return [...prevGuesses, { hint: hint[0], count: count }];
+            return [...prevGuesses, { hint: hint[0], count: count, nums: nums }];
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hint]);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function HintsBox({ hint, reset, count, changeReset }) {
             <div>
                 <p>Previous Guesses<br />============</p><br />
                 {guesses.map((guess) => {
-                    return guess.count > 0 ? <div key={guess.count}>Guess #{guess.count} : {guess.hint}</div> : <div key={guess.count}></div>
+                    return guess.count > 0 ? <div key={guess.count}>Guess #{guess.count} ({guess.nums}): {guess.hint}</div> : <div key={guess.count}></div>
                 })}
             </div>
         </div>

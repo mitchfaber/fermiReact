@@ -6,6 +6,7 @@ import SlideToggle from "react-slide-toggle";
 export default function Game() {
     const [hint, setHint] = useState(['', '',''])
     const [reset, setReset] = useState(false)
+    const [nums, setNums] = useState('') //using string for easier rendering. No need to map an array.
     const [count, setCount] = useState(0)
 
     useEffect(() => {
@@ -20,6 +21,10 @@ export default function Game() {
         setHint(newValue)
     }
 
+    function changeNums(newValue) {
+        setNums(newValue)
+    }
+
     function changeCount(newValue) {
         setCount(newValue)
     }
@@ -29,6 +34,7 @@ export default function Game() {
             <div className="columns">
                 <div className="column is-one-quarter">
                     <div className="card">
+                        {/* completely unnecessary slide toggle, just because it's neat. And now I know how. */}
                         <SlideToggle collapsed>
                             {({ toggle, setCollapsibleElement }) => (
                                 <>
@@ -63,6 +69,7 @@ export default function Game() {
                         hint={hint}
                         reset={reset}
                         count={count}
+                        nums={nums}
                         changeReset={changeReset}>
                     </HintsBox>
                 </div>
@@ -73,7 +80,8 @@ export default function Game() {
                         count={count}
                         changeCount={changeCount}
                         changeHint={changeHint.bind(this)}
-                        changeReset={changeReset}>    
+                        changeReset={changeReset}
+                        changeNums={changeNums}>
                     </GuessControls>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect } from 'react';
-export default function GuessControls({ hint, reset,count,changeCount,changeHint,changeReset }) {
+export default function GuessControls({ hint, reset,count,changeCount,changeHint,changeReset,changeNums }) {
     const [guess1, setGuess1] = useState([0, true]); // Using first value as guess num, second as validation
     const [guess2, setGuess2] = useState([0, true]);
     const [guess3, setGuess3] = useState([0, true]);
@@ -11,7 +11,7 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     useEffect(() => {
         //Generate fermi numbers on first run.
         genNums();
-        setGameOver(false)
+        setGameOver(false);
     }, []);
 
     useEffect(() => {
@@ -83,9 +83,10 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     }
 
     async function checkAnswers() {
+        changeNums(guessedNums[0] + "," + guessedNums[1] + "," + guessedNums[2]);
         for (let i = 0; i < 3; i++) {
             hint.forEach(() => {
-                hint.pop()
+                hint.pop();
             })
         }
         guessedNums.forEach((numGuess, i) => {
@@ -110,15 +111,15 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
         let checkFlag = await checkHint();
         if (count == 10) {
             if (checkFlag) {
-                hint.push(' ||  WINNER!')
+                hint.push(' ||  WINNER!');
                 setGameOver(true);
             } else {
-                hint.push(' || LOSE - Better luck next time! ');
+                hint.push(' || LOSE - Better luck next time! The numbers to guess were: (' + numsToGuess + ")");
                 setGameOver(true);
             }
         } else if (count > 0){
             if (checkFlag) {
-                hint.push(' ||  WINNER!')
+                hint.push(' ||  WINNER!');
                 setGameOver(true);
             }
         }
@@ -126,14 +127,16 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     }
 
     async function checkHint() {
-        let fermiCount = 0
+        let fermiCount = 0;
         hint.forEach((myHint) => {
-            myHint.includes('Fermi') ? fermiCount++ : fermiCount = fermiCount;
+            if (myHint.includes('Fermi')) {
+                fermiCount++;
+            }
         });
         if (fermiCount === 3) {
             return true;
         } else {
-            shuffleArray(hint)
+            shuffleArray(hint);
             return false;
         }
     }
@@ -161,6 +164,7 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
 //   "homepage":"/Users/mitchfaber/Documents/WebDev/fermiReact/build",
     return (
         <div className="box">
+            {/* testing:  {numsToGuess} */}
             <div className="field">
                 <label className="label">1st number</label>
                 <div className="control">
