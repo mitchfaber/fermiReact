@@ -1,12 +1,13 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect } from 'react';
 export default function GuessControls({ hint, reset,count,changeCount,changeHint,changeReset }) {
-    const [guess1, setGuess1] = useState([1, true]); // Using first value as guess num, second as validation
-    const [guess2, setGuess2] = useState([1, true]);
-    const [guess3, setGuess3] = useState([1, true]);
+    const [guess1, setGuess1] = useState([0, true]); // Using first value as guess num, second as validation
+    const [guess2, setGuess2] = useState([0, true]);
+    const [guess3, setGuess3] = useState([0, true]);
     const [numsToGuess, setNumsToGuess] = useState([0, 0, 0]);
     const [guessedNums, setGuessedNums] = useState([0, 0, 0]);
     const [gameOver, setGameOver] = useState(false);
+    const [valid, setValid] = useState(true)
     
     useEffect(() => {
         //Generate fermi numbers on first run.
@@ -39,13 +40,13 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
         let newValue = e.target.value;
         switch (e.target.id) {
             case "num1":
-                setGuess1([newValue, guess1[1]]);
+                setGuess1([newValue, await validate(newValue)]);
                 break;
             case "num2":
-                setGuess2([newValue, guess2[1]]);
+                setGuess2([newValue, await validate(newValue)]);
                 break;
             case "num3":
-                setGuess3([newValue, guess3[1]]);
+                setGuess3([newValue, await validate(newValue)]);
                 break;
             default:
                 // No num change? Not sure what to do here really...
@@ -63,7 +64,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
 
     function guess() {
         guessSetter().then((res) => {
-            console.log(res);
             // error validation
             if (res) {
                 changeCount(count + 1);
@@ -85,8 +85,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
 
     async function checkAnswers() {
         for (let i = 0; i < 3; i++) {
-            console.log("Clearing hints")
-            console.log(hint)
             hint.forEach(() => {
                 hint.pop()
             })
@@ -129,7 +127,6 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     }
 
     async function checkHint() {
-        console.log("checking hint: " + hint);
         let fermiCount = 0
         hint.forEach((myHint) => {
             myHint.includes('Fermi') ? fermiCount++ : fermiCount = fermiCount;
@@ -155,9 +152,9 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
     function resetGame() {
         changeCount(0);
         changeHint(['', 0]);
-        setGuess1([1, true]);
-        setGuess2([1, true]);
-        setGuess3([1, true]);
+        setGuess1([0, true]);
+        setGuess2([0, true]);
+        setGuess3([0, true]);
         genNums();
         setGameOver(false);
         changeReset();
@@ -165,12 +162,11 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
 
     return (
         <div className="box">
-            <div> {numsToGuess} </div>
             <div className="field">
                 <label className="label">1st number</label>
                 <div className="control">
                     <input type="number" className={guess1[1] ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num1" value={guess1[0]} min="1" max="10"></input>
-                    {guess1[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 1-10</p>}
+                    {guess1[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
                 </div>
             </div>
             <div className="field">
@@ -178,13 +174,13 @@ export default function GuessControls({ hint, reset,count,changeCount,changeHint
                 <div className="control">
                     <input type="number" className={guess2[1] ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num2" value={guess2[0]} min="1" max="10"></input>
                 </div>
-                {guess2[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 1-10</p>}
+                {guess2[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
             </div>
             <div className="field">
                 <label className="label">3rd number</label>
                 <div className="control">
                     <input type="number" className={guess3[1] ? "input is-primary" : "input is-danger"} onChange={handleNumChange} id="num3" value={guess3[0]} min="1" max="10"></input>
-                    {guess3[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 1-10</p>}
+                    {guess3[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
                 </div>
             </div>
             <div className="field is-grouped">
