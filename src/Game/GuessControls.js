@@ -61,7 +61,8 @@ export default function GuessControls({ hint, reset, count, changeCount, changeH
 		}
 	}
 
-	function guess() {
+	function guess(e) {
+		e.preventDefault();
 		guessSetter().then((res) => {
 			// error validation
 			if (res) {
@@ -164,61 +165,62 @@ export default function GuessControls({ hint, reset, count, changeCount, changeH
 	//   "homepage":"/Users/mitchfaber/Documents/WebDev/fermiReact/build",
 	return (
 		<div className="box">
-			{/* testing:  {numsToGuess} */}
-			<div className="field">
-				<label className="label">1st number</label>
-				<div className="control">
-					<input
-						type="number"
-						className={guess1[1] ? "input is-primary" : "input is-danger"}
-						onChange={handleNumChange}
-						id="num1"
-						value={guess1[0]}
-						min="1"
-						max="10"></input>
-					{guess1[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
+			<form onSubmit={guess}>
+				<div className="field">
+					<label className="label">1st number</label>
+					<div className="control">
+						<input
+							type="number"
+							className={guess1[1] ? "input is-primary" : "input is-danger"}
+							onChange={handleNumChange}
+							id="num1"
+							value={guess1[0]}
+							min="0"
+							max="9"></input>
+						{guess1[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
+					</div>
 				</div>
-			</div>
-			<div className="field">
-				<label className="label">2nd number</label>
-				<div className="control">
-					<input
-						type="number"
-						className={guess2[1] ? "input is-primary" : "input is-danger"}
-						onChange={handleNumChange}
-						id="num2"
-						value={guess2[0]}
-						min="1"
-						max="10"></input>
+				<div className="field">
+					<label className="label">2nd number</label>
+					<div className="control">
+						<input
+							type="number"
+							className={guess2[1] ? "input is-primary" : "input is-danger"}
+							onChange={handleNumChange}
+							id="num2"
+							value={guess2[0]}
+							min="0"
+							max="9"></input>
+					</div>
+					{guess2[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
 				</div>
-				{guess2[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
-			</div>
-			<div className="field">
-				<label className="label">3rd number</label>
-				<div className="control">
-					<input
-						type="number"
-						className={guess3[1] ? "input is-primary" : "input is-danger"}
-						onChange={handleNumChange}
-						id="num3"
-						value={guess3[0]}
-						min="1"
-						max="10"></input>
-					{guess3[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
+				<div className="field">
+					<label className="label">3rd number</label>
+					<div className="control">
+						<input
+							type="number"
+							className={guess3[1] ? "input is-primary" : "input is-danger"}
+							onChange={handleNumChange}
+							id="num3"
+							value={guess3[0]}
+							min="0"
+							max="9"></input>
+						{guess3[1] ? <p></p> : <p className="help is-danger">Verify number. Should be 0-9</p>}
+					</div>
 				</div>
-			</div>
-			<div className="field is-grouped">
-				<div className="control">
-					<button type="button" onClick={guess} className="button is-primary" disabled={gameOver ? true : false}>
-						Guess!
-					</button>
+				<div className="field is-grouped">
+					<div className="control">
+						<button type="submit" className="button is-primary" disabled={gameOver ? true : false}>
+							Guess!
+						</button>
+					</div>
+					<div className="control">
+						<button type="button" onClick={resetGame} className="button is-secondary">
+							Reset
+						</button>
+					</div>
 				</div>
-				<div className="control">
-					<button type="button" onClick={resetGame} className="button is-secondary">
-						Reset
-					</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	);
 }
