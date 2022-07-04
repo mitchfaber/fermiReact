@@ -142,10 +142,12 @@ export default function GuessControls({ hint, reset, count, changeCount, changeH
 		}
 	}
 
-	/* Randomize array in-place using Durstenfeld shuffle algorithm */
+	// Randomize array in-place using Durstenfeld shuffle algorithm
 	async function shuffleArray(array) {
 		for (var i = array.length - 1; i > 0; i--) {
+			// generate random number
 			var j = Math.floor(Math.random() * (i + 1));
+			//swap index with the random number, shuffling the array
 			var temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
